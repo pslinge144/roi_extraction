@@ -1,4 +1,5 @@
 import os
+import shutil
 from osgeo import gdal
 
 
@@ -13,5 +14,8 @@ if __name__ == "__main__":
         sensor_dir = os.path.join(site_dir, sensor_name)
         for filename in os.listdir(sensor_dir):
             sensor_file = os.path.join(sensor_dir, filename)
-            print(gdal.Open(sensor_file).getProjection())
+            out_sensor_dir = os.path.splitext(sensor_file)[0]
+            if not os.path.exists(out_sensor_dir):
+                sensor_file_extracted = shutil.unpack_archive(sensor_file,
+                        out_sensor_dir)
 
